@@ -4,18 +4,23 @@ package com.qq.server.view;
 //也可以显示谁下线了
 import javax.swing.*;
 
-import com.qq.server.model.QqServer;
 
-import java.awt.*;
+import com.qq.server.model.QqServer;
 import java.awt.event.*;
+import java.io.IOException;
 public class Server_interface extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel jp;
 	JButton jb1;
 	JButton jb2;
+	QqServer server=null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Server_interface FrList=new Server_interface();
+		new Server_interface();
 	}
 	
 	public Server_interface()
@@ -23,7 +28,8 @@ public class Server_interface extends JFrame implements ActionListener{
 		jp=new JPanel();
 		jb1=new JButton("打开服务器");
 		jb1.addActionListener(this);
-		jb2=new JButton("关闭服务器");	
+		jb2=new JButton("关闭服务器");
+		jb2.addActionListener(this);
 		jp.add(jb1);
 		jp.add(jb2);
 		this.add(jp,"Center");
@@ -38,7 +44,17 @@ public class Server_interface extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(arg0.getSource()==jb1)
 		{
-			new QqServer();
+			server=new QqServer();
+		}
+		if(arg0.getSource()==jb2 && server!=null)
+		{
+			try {
+				server.getSs().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("关闭失败");
+			}
 		}
 	}
 }

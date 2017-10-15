@@ -6,15 +6,16 @@ import javax.swing.*;
 
 import com.qq.common.*;
 import com.qq.client.model.*;
+import com.qq.client.tools.ManageAllFriendList;
+
 import java.awt.*;
 import java.awt.event.*;
 public class QqClientLogin extends JFrame implements ActionListener{
-
 	       //定义北部所需要的组件
-			JLabel jbl1=null;
+			JLabel jbl1;
 			//定义中部所需要的组件
-			//中部有三个Jpanel,由一个选项卡窗口管理
-			JTabbedPane jtp=null;
+			//中部有三个jpanel,由一个选项卡窗口管理
+			JTabbedPane jtp;
 			JPanel jp2,jp3,jp4;//jp2对应qq号码，其他两个是手机号码，邮箱
 			JLabel jp2_jbl1,jp2_jbl2,jp2_jbl3,jp2_jbl4;
 			JButton jp2_jb1;
@@ -92,10 +93,13 @@ public class QqClientLogin extends JFrame implements ActionListener{
 			QqClientUser user=new QqClientUser();//用来check
 			User u=new User();
 			u.setUser_id((String)jp2_jtf.getText().trim());
+			//System.out.println(u.getUser_id());
 			u.setPassword(new String(jp2_jpf.getPassword()));
 			if(user.checkUser(u))//如果验证成功
 			{
-			    new QqFriendList();
+				QqFriendList Ql=new QqFriendList(u.getUser_id());
+			    ManageAllFriendList.addFriendList(u.getUser_id(), Ql);
+			    ManageAllFriendList.LightThoseNeedLightButNotLight();//将在线好友点亮
 			    this.dispose();
 			}
 			else
